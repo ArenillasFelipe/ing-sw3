@@ -14,6 +14,15 @@ app.get('/ping', async (req, res) => {
     res.json(result[0]);
 });
 
+
+// Configurar Express para servir archivos estáticos desde la carpeta 'frontend'
+app.use(express.static(path.join(__dirname, '../../frontend')));
+
+// Ruta principal para cargar el index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../frontend/index.html'));
+});
+
 app.use(employeesRoutes);
 
 app.listen(PORT);
