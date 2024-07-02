@@ -14,6 +14,11 @@ app.get('/ping', async (req, res) => {
     res.json(result[0]);
 });
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+});
+
+
 app.use(employeesRoutes);
 
 app.listen(PORT);
