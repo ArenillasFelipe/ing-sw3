@@ -9,3 +9,6 @@ export const DB_PASSWORD = process.env.DB_PASSWORD || 'root'
 export const DB_HOST = process.env.DB_HOST || 'localhost'
 export const DB_DATABASE = process.env.DB_DATABASE || 'employeesdb'
 export const DB_PORT = process.env.DB_PORT || 3306
+
+
+console.log("DB parameters ", DB_USER, DB_PORT, DB_PASSWORD, DB_DATABASE, DB_HOST);
