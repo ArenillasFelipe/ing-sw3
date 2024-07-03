@@ -2,9 +2,10 @@ document.addEventListener('DOMContentLoaded', function () {
     renderEmployees();
 });
 
-async function getEmployees() {
+async function getEmployees(name = '') {
     try {
-        let response = await fetch('https://ing-sw3-production.up.railway.app/employees');
+        let url = name ? `https://ing-sw3-production.up.railway.app/employee/${name}` : 'https://ing-sw3-production.up.railway.app/employees';
+        let response = await fetch(url);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -17,8 +18,8 @@ async function getEmployees() {
     }
 }
 
-async function renderEmployees() {
-    let employees = await getEmployees();
+async function renderEmployees(name = '') {
+    let employees = await getEmployees(name);
     console.log(employees);
 
     let employeeListContainer = document.getElementById('employeeListContainer');
@@ -91,3 +92,10 @@ async function deleteEmployee(employeeId) {
         console.error('There was a problem with the fetch operation:', error);
     }
 }
+
+
+document.getElementById("searchForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    let searchName = document.getElementById("inputSearch").value;
+    renderEmployees(searchName);
+});

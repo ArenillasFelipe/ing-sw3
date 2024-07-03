@@ -25,6 +25,10 @@ body {
     top: 5rem;
 }
 
+.employeeRegisterContainer button {
+    bottom: -3rem;
+}
+
 input {
     height: 1.2rem;
     position: absolute;
@@ -69,7 +73,7 @@ h1 {
 
 
 button {
-    min-width: 90px;
+    width: 90px;
     padding-left: 10px;
     padding-right: 10px;
     height: 30px;
@@ -81,11 +85,32 @@ button {
     color: white;
     transition: transform 50ms ease-in-out;
     position: relative;
-    bottom: -3rem;
 
     &:hover {
   transform: scale(1.05);
 }
+}
+
+#searchContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  position: relative;
+  gap: 2rem;
+  height: 3rem;
+  margin-top: 1rem;
+}
+
+#inputSearch {
+    height: 1.5rem;
+    width: 20rem;
+    position: relative;
+}
+
+#searchButton {
+    width: 5rem;
+    position: relative;
 }
 
 
@@ -94,6 +119,7 @@ button {
 /*=================Employee Card==================================================*/
 
 #employeeListContainer {
+    top: 0rem;
     width: 90%;
     position: relative;
     left: 50%;
@@ -157,7 +183,7 @@ button {
     background-color: #D70000;
     color: white;
     border-radius: 5px;
-    width: 2rem;
+    width: 4rem;
     height: 1rem;
     font-size: small;
 }
