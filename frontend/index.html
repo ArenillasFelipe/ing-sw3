@@ -1,16 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DOCUMENT</title>
-
+    <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
-    <h1>Registrar empleado</h1>
-    <input id="inputName" placeholder="Nombre del empleado">
-    <input id="inputSalary" placeholder="Salario">
-    <button type="submit" id="saveButton">Guardar<button>
+
+    <div class="employeeRegisterContainer">
+        <h1>Registrar empleado</h1>
+
+        <div class="inputsContainer">
+
+
+            <form class="inputsContainer" id="form">
+                <div class="inputNameContainer">
+                    <label for="inputName">Nombre</label>
+                    <input id="inputName" placeholder="Nombre del empleado" required>
+                </div>
+
+                <div class="inputSalaryContainer">
+                    <label for="inputSalary">Salario</label>
+                    <input id="inputSalary" type="number" placeholder="Salario" required>
+                </div>
+        </div>
+        <button type="submit" id="saveButton">Guardar</button>
+    </form>
+    </div>
+
+    <div class="searchInputContainer">
+        <input type="text" placeholder="Buscar empleado" id="inputSearch">
+    </div>
 
     <div id="employeeListContainer">
 
@@ -18,4 +41,5 @@
 
     <script src="index.js"></script>
 </body>
+
 </html>

@@ -1,0 +1,165 @@
+body {
+    font-family: sans-serif;
+}
+
+
+.employeeRegisterContainer {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    background-color: #353535;
+    width: 90%;
+    height: 12rem;
+    border-radius: 10px;
+    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+.inputsContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 10rem;
+    top: 5rem;
+}
+
+input {
+    height: 1.2rem;
+    position: absolute;
+}
+
+#inputName{
+    width: 12rem;
+}
+
+#inputSalary{
+    width: 6rem;
+}
+
+.inputNameContainer {
+    position: relative;
+    width: 8rem;
+}
+
+.inputNameContainer label {
+    left: 0.3rem;
+}
+
+.inputSalaryContainer {
+    position: relative;
+    width: 8rem;
+}
+
+.inputSalaryContainer label {
+    left: 0.3rem;
+}
+
+label {
+    color: #A4A4A4;
+    position: absolute;
+    top: -1.2rem;
+}
+
+h1 {
+    color: white;
+}
+
+
+
+button {
+    min-width: 90px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 30px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #27AE60;
+    color: white;
+    transition: transform 50ms ease-in-out;
+    position: relative;
+    bottom: -3rem;
+
+    &:hover {
+  transform: scale(1.05);
+}
+}
+
+
+
+
+/*=================Employee Card==================================================*/
+
+#employeeListContainer {
+    width: 90%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-wrap: wrap; /* Permite que las tarjetas se muevan a la siguiente fila */
+    justify-content: center;
+    align-items: center;
+}
+
+.employeeCard {
+    background-color: #D9D9D9;
+    width: 15rem;
+    height: 6rem;
+    border-radius: 10px;
+    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.6);
+    margin: 1rem;
+    position: relative;
+}
+
+.employeeName {
+    position: absolute;
+    top: -0.5rem;
+    font-size: 1.2rem;
+    width: 100%;
+    text-align: center;
+    font-weight: 500;
+}
+
+.salaryContainer {
+    top: 0.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.salaryContainer h2 {
+    color: #353535;
+    font-size: 1rem;
+    font-weight: 100;
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+.salaryContainer p {
+    top: -2rem;
+    font-size: 1.1rem;
+    font-weight: 100;
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+.deleteButton {
+    position: absolute;
+    bottom: 0.2rem;
+    left: 0.3rem;
+    background-color: #D70000;
+    color: white;
+    border-radius: 5px;
+    width: 2rem;
+    height: 1rem;
+    font-size: small;
+}
+
+/*=================END Employee Card==================================================*/
