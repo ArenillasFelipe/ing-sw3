@@ -2,9 +2,12 @@ import express from 'express'
 import { pool } from './db.js';
 import employeesRoutes from './routes/employees_routes.js';
 import { PORT } from './config.js';
+import cors from 'cors';
 
 
 const app = express();
+// Configura CORS
+app.use(cors());
 
 app.use(express.json());
 
