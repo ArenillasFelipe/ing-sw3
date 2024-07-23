@@ -1,0 +1,18 @@
+name: Build and Deploy Applicationn 
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+
+      - name: Build and run 
+        run: |
+           docker compose up -d
