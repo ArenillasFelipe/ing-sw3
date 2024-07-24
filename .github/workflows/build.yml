@@ -1,4 +1,4 @@
-name: Build and Deploy Applicationn 
+name: Build and Deploy Application
 
 on:
   push:
@@ -10,6 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: Install dependencies
+        run: |
+           npm install
+    
+
       - name: Check Linter
         run: |
            npm --prefix ./backend run lint
