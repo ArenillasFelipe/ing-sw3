@@ -1,4 +1,4 @@
-name: Build and Deploy Application
+name: Build and Deploy Applicationn 
 
 on:
   push:
@@ -11,18 +11,12 @@ jobs:
 
     steps:
 
-      - name: Install dependencies
-        run: |
-           npm install
-        working-directory: backend
+      - name: Checkout code
+        uses: actions/checkout@master
     
-
       - name: Check Linter
         run: |
            npm --prefix ./backend run lint
-
-      - name: Checkout code
-        uses: actions/checkout@master
 
       - name: Build and run 
         run: |
