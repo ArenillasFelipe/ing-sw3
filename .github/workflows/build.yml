@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Check Linter
         run: |
-           npm run lint
+           npm --prefix ./backend run lint
 
       - name: Checkout code
         uses: actions/checkout@master
