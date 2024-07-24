@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 async function getEmployees(name = '') {
     try {
-        let url = name ? `https://ing-sw3-production.up.railway.app/employee/${name}` : 'https://ing-sw3-production.up.railway.app/employees';
+        let url = name ? `https://pacific-wave-13397-31b04e68149c.herokuapp.com/employee/${name}` : 'https://pacific-wave-13397-31b04e68149c.herokuapp.com/employees';
         let response = await fetch(url);
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -52,7 +52,7 @@ document.getElementById("form").addEventListener("submit", (event) => {
 
 async function postEmployee(inputName, inputSalary) {
     try {
-        let response = await fetch('https://ing-sw3-production.up.railway.app/employees', {
+        let response = await fetch('https://pacific-wave-13397-31b04e68149c.herokuapp.com/employees', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -76,7 +76,7 @@ async function postEmployee(inputName, inputSalary) {
 
 async function deleteEmployee(employeeId) {
     try {
-        let response = await fetch(`https://ing-sw3-production.up.railway.app/employees/${employeeId}`, {
+        let response = await fetch(`https://pacific-wave-13397-31b04e68149c.herokuapp.com/employees/${employeeId}`, {
             method: 'DELETE',
         });
 

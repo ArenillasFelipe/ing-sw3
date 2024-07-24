@@ -6,3 +6,6 @@ ENV MYSQL_DATABASE=employeesdb
 
 # Copiar el archivo SQL a la carpeta de inicialización del MySQL
 COPY database.sql /docker-entrypoint-initdb.d/database.sql
+
+# Expone el puerto 3306
+EXPOSE 3306

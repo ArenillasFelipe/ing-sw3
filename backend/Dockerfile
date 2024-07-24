@@ -2,9 +2,11 @@ FROM node:18
 
 WORKDIR /myapp
 
-COPY package.json /myapp
+COPY package.json /myapp/
 RUN npm install
 
-COPY . .
+COPY . /myapp/
 
-CMD ["sh", "-c", "sleep 25 && node index.js"]
+
+
+CMD ["sh", "-c", "sleep 50 && node index.js"]
