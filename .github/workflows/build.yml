@@ -16,7 +16,7 @@ jobs:
     
       - name: Check Linter
         run: |
-           npm --prefix ./backend run lint
+           cd backend && npm install && npm run lint
 
       - name: Build and run 
         run: |
