@@ -17,7 +17,7 @@ async function getEmployees(name = '') {
         return []; // Devuelve un array vacío en caso de error
     }
 }
-//
+
 async function renderEmployees(name = '') {
     let employees = await getEmployees(name);
     console.log(employees);
