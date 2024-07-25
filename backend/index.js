@@ -13,7 +13,7 @@ app.use(express.json());
 
 
 app.get('/ping', async (req, res) => {
-    const [result] = await pool.query('select "pong" AS result');
+    const [result] = await pool.query('select "pongitoooooo" AS result');
     res.json(result[0]);
 });
 

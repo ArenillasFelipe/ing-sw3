@@ -17,6 +17,7 @@ body {
     height: 12rem;
     border-radius: 10px;
     box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.6);
+    background-color: blue;
 }
 
 .inputsContainer {
@@ -24,6 +25,7 @@ body {
     flex-direction: row;
     gap: 10rem;
     top: 5rem;
+    background-color: blue;
 }
 
 .employeeRegisterContainer button {

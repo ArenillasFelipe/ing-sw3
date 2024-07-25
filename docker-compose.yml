@@ -1,6 +1,5 @@
 version: '3'
 services: 
-
   database: 
     build: ./database
     ports: 
@@ -19,3 +18,5 @@ services:
     build: ./frontend # Ruta a la carpeta frontend
     ports:
       - 8080:8080
+    volumes:
+      - ./frontend:/app
