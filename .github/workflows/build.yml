@@ -22,3 +22,47 @@ jobs:
       - name: Build and run 
         run: |
            docker compose up -d
+
+      - name: Log in to Heroku Container Registry
+        env:
+          HEROKU_USERNAME: ${{ secrets.HEROKU_USERNAME }}
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: echo "$HEROKU_API_KEY" | docker login --username $HEROKU_USERNAME --password-stdin registry.heroku.com
+
+######################### CONSTRUCCION DE IMAGENES DE DOCKER #########################################################
+
+      - name: Build and push backend image
+        run: |
+          docker build -t registry.heroku.com/pacific-wave-13397/web -f backend/Dockerfile ./backend
+          docker push registry.heroku.com/pacific-wave-13397/web
+
+      - name: Build and push frontend image
+        run: |
+          docker build -t registry.heroku.com/evening-escarpment-64577/web -f frontend/Dockerfile ./frontend
+          docker push registry.heroku.com/evening-escarpment-64577/web
+
+      - name: Build and push database image
+        run: |
+          docker build -t registry.heroku.com/lit-savannah-04814/web -f database/Dockerfile ./database
+          docker push registry.heroku.com/lit-savannah-04814/web
+
+######################################################################################################################################
+
+
+
+
+####################### RELEASE DE APLICACIONES #########################################################################
+
+      - name: Release backend
+        run: |
+          heroku container:release web --app pacific-wave-13397
+
+      - name: Release frontend
+        run: |
+          heroku container:release web --app evening-escarpment-64577
+
+      - name: Release database
+        run: |
+          heroku container:release web --app lit-savannah-04814
+
+####################################################################################################################################
