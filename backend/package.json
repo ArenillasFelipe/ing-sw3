@@ -15,7 +15,7 @@
     "extends": "./node_modules/standard/eslintrc.json"
   },
   "scripts": {
-    "test": "set NODE_OPTIONS=--experimental-vm-modules && jest",
+    "test": "NODE_OPTIONS=--experimental-vm-modules && jest",
     "dev": "node index.js",
     "lint": "eslint ."
   },
