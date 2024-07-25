@@ -13,95 +13,95 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
     
-      - name: Check Linter
-        run: |
-          cd backend && npm install && npm run lint
-        continue-on-error: true # Continúa a pesar de los errores del linter
+      # - name: Check Linter
+      #   run: |
+      #     cd backend && npm install && npm run lint
+      #   continue-on-error: true # Continúa a pesar de los errores del linter
         
       - name: Run backend tests
         run: |
           cd backend && set NODE_OPTIONS=--experimental-vm-modules && jest
 
-      - name: Build and run
-        run: |
-          docker compose up -d
+#       - name: Build and run
+#         run: |
+#           docker compose up -d
 
-      - name: esperar
-        run: |
-          sleep 30
+#       - name: esperar
+#         run: |
+#           sleep 30
 
-      - name: Login to Docker Hub
-        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+#       - name: Login to Docker Hub
+#         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build Docker images
-        run: |
-          docker build -t backend:latest -f backend/Dockerfile ./backend
-          docker build -t frontend:latest -f frontend/Dockerfile ./frontend
-          docker build -t database:latest -f database/Dockerfile ./database
+#       - name: Build Docker images
+#         run: |
+#           docker build -t backend:latest -f backend/Dockerfile ./backend
+#           docker build -t frontend:latest -f frontend/Dockerfile ./frontend
+#           docker build -t database:latest -f database/Dockerfile ./database
 
-      - name: Tag and push Docker images
-        run: |
-          docker tag backend:latest ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
-          docker tag frontend:latest ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
-          docker tag database:latest ${{ secrets.DOCKERHUB_USERNAME }}/database:latest
+#       - name: Tag and push Docker images
+#         run: |
+#           docker tag backend:latest ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
+#           docker tag frontend:latest ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
+#           docker tag database:latest ${{ secrets.DOCKERHUB_USERNAME }}/database:latest
 
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/database:latest
+#           docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
+#           docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
+#           docker push ${{ secrets.DOCKERHUB_USERNAME }}/database:latest
 
-      - name: Login to Heroku Container Registry
-        run: echo ${{ secrets.HEROKU_API_KEY }} | docker login -u=_ --password-stdin registry.heroku.com
+#       - name: Login to Heroku Container Registry
+#         run: echo ${{ secrets.HEROKU_API_KEY }} | docker login -u=_ --password-stdin registry.heroku.com
 
-      - name: Configure Heroku CLI
-        run: |
-          echo -e "machine api.heroku.com\n  login ${{ secrets.HEROKU_EMAIL }}\n  password ${{ secrets.HEROKU_API_KEY }}\nmachine git.heroku.com\n  login ${{ secrets.HEROKU_EMAIL }}\n  password ${{ secrets.HEROKU_API_KEY }}" > ~/.netrc
+#       - name: Configure Heroku CLI
+#         run: |
+#           echo -e "machine api.heroku.com\n  login ${{ secrets.HEROKU_EMAIL }}\n  password ${{ secrets.HEROKU_API_KEY }}\nmachine git.heroku.com\n  login ${{ secrets.HEROKU_EMAIL }}\n  password ${{ secrets.HEROKU_API_KEY }}" > ~/.netrc
 
-######################### CONSTRUCCION DE IMAGENES DE DOCKER #########################################################
+# ######################### CONSTRUCCION DE IMAGENES DE DOCKER #########################################################
 
-      - name: Build and push backend image
-        run: |
-          docker build -t backend -f backend/Dockerfile ./backend
-          docker tag backend registry.heroku.com/pacific-wave-13397/web
-          docker push registry.heroku.com/pacific-wave-13397/web
+#       - name: Build and push backend image
+#         run: |
+#           docker build -t backend -f backend/Dockerfile ./backend
+#           docker tag backend registry.heroku.com/pacific-wave-13397/web
+#           docker push registry.heroku.com/pacific-wave-13397/web
 
-      - name: Release to Heroku BACKEND
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release web -a pacific-wave-13397
+#       - name: Release to Heroku BACKEND
+#         env:
+#           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+#         run: heroku container:release web -a pacific-wave-13397
 
-      - name: Activate Deployment on Heroku BACKEND
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku ps:scale web=1 -a pacific-wave-13397
+#       - name: Activate Deployment on Heroku BACKEND
+#         env:
+#           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+#         run: heroku ps:scale web=1 -a pacific-wave-13397
 
-      - name: Build and push frontend image
-        run: |
-          docker build -t frontend -f frontend/Dockerfile ./frontend
-          docker tag frontend registry.heroku.com/evening-escarpment-64577/web
-          docker push registry.heroku.com/evening-escarpment-64577/web
+#       - name: Build and push frontend image
+#         run: |
+#           docker build -t frontend -f frontend/Dockerfile ./frontend
+#           docker tag frontend registry.heroku.com/evening-escarpment-64577/web
+#           docker push registry.heroku.com/evening-escarpment-64577/web
 
-      - name: Release to Heroku FRONTEND
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release web -a evening-escarpment-64577
+#       - name: Release to Heroku FRONTEND
+#         env:
+#           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+#         run: heroku container:release web -a evening-escarpment-64577
 
-      - name: Activate Deployment on Heroku FRONTEND
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku ps:scale web=1 -a evening-escarpment-64577
+#       - name: Activate Deployment on Heroku FRONTEND
+#         env:
+#           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+#         run: heroku ps:scale web=1 -a evening-escarpment-64577
 
-      - name: Build and push database image
-        run: |
-          docker build -t database -f database/Dockerfile ./database
-          docker tag database registry.heroku.com/lit-savannah-04814/web
-          docker push registry.heroku.com/lit-savannah-04814/web
+#       - name: Build and push database image
+#         run: |
+#           docker build -t database -f database/Dockerfile ./database
+#           docker tag database registry.heroku.com/lit-savannah-04814/web
+#           docker push registry.heroku.com/lit-savannah-04814/web
 
-      - name: Release to Heroku DATABASE
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release web -a lit-savannah-04814
+#       - name: Release to Heroku DATABASE
+#         env:
+#           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+#         run: heroku container:release web -a lit-savannah-04814
 
-      - name: Activate Deployment on Heroku DATABASE
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku ps:scale web=1 -a lit-savannah-04814
+#       - name: Activate Deployment on Heroku DATABASE
+#         env:
+#           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+#         run: heroku ps:scale web=1 -a lit-savannah-04814
