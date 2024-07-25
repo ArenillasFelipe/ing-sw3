@@ -4,7 +4,7 @@ exports.config = {
     helpers: {
         Puppeteer: {
             url: 'https://evening-escarpment-64577-f01b2da16e33.herokuapp.com/',
-            show: true,
+            show: false,
             windowSize: '1200x900',
             waitForAction: 2000,
         },
