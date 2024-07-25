@@ -21,7 +21,7 @@ jobs:
 
       - name: Build and run 
         run: |
-           docker compose up -d
+           docker compose up
 
       - name: Log in to Heroku Container Registry
         env:
