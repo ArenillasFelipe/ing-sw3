@@ -29,6 +29,12 @@ jobs:
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: Build Docker images
+        run: |
+          docker build -t backend:latest -f backend/Dockerfile ./backend
+          docker build -t frontend:latest -f frontend/Dockerfile ./frontend
+          docker build -t database:latest -f database/Dockerfile ./database
+
       - name: Tag and push Docker images
         run: |
           docker tag backend:latest ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
