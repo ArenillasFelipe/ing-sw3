@@ -1,4 +1,4 @@
-name: Build and Deploy Applicationn 
+name: Build and Deploy Application
 
 on:
   push:
@@ -10,59 +10,88 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v2
     
       - name: Check Linter
         run: |
-           cd backend && npm install && npm run lint
-        continue-on-error: true #Continua a pesar de los errores del linter
+          cd backend && npm install && npm run lint
+        continue-on-error: true # Continúa a pesar de los errores del linter
 
-      - name: Build and run 
+      - name: Build and run
         run: |
-           docker compose up
+          docker compose up -d
 
-      - name: Log in to Heroku Container Registry
-        env:
-          HEROKU_USERNAME: ${{ secrets.HEROKU_USERNAME }}
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: echo "$HEROKU_API_KEY" | docker login --username $HEROKU_USERNAME --password-stdin registry.heroku.com
+      - name: esperar
+        run: |
+          sleep 30
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Tag and push Docker images
+        run: |
+          docker tag backend:latest ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
+          docker tag frontend:latest ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
+          docker tag database:latest ${{ secrets.DOCKERHUB_USERNAME }}/database:latest
+
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/database:latest
+
+      - name: Login to Heroku Container Registry
+        run: echo ${{ secrets.HEROKU_API_KEY }} | docker login -u=_ --password-stdin registry.heroku.com
+
+      - name: Configure Heroku CLI
+        run: |
+          echo -e "machine api.heroku.com\n  login ${{ secrets.HEROKU_EMAIL }}\n  password ${{ secrets.HEROKU_API_KEY }}\nmachine git.heroku.com\n  login ${{ secrets.HEROKU_EMAIL }}\n  password ${{ secrets.HEROKU_API_KEY }}" > ~/.netrc
 
 ######################### CONSTRUCCION DE IMAGENES DE DOCKER #########################################################
 
       - name: Build and push backend image
         run: |
-          docker build -t registry.heroku.com/pacific-wave-13397/web -f backend/Dockerfile ./backend
+          docker build -t backend -f backend/Dockerfile ./backend
+          docker tag backend registry.heroku.com/pacific-wave-13397/web
           docker push registry.heroku.com/pacific-wave-13397/web
+
+      - name: Release to Heroku BACKEND
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:release web -a pacific-wave-13397
+
+      - name: Activate Deployment on Heroku BACKEND
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku ps:scale web=1 -a pacific-wave-13397
 
       - name: Build and push frontend image
         run: |
-          docker build -t registry.heroku.com/evening-escarpment-64577/web -f frontend/Dockerfile ./frontend
+          docker build -t frontend -f frontend/Dockerfile ./frontend
+          docker tag frontend registry.heroku.com/evening-escarpment-64577/web
           docker push registry.heroku.com/evening-escarpment-64577/web
+
+      - name: Release to Heroku FRONTEND
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:release web -a evening-escarpment-64577
+
+      - name: Activate Deployment on Heroku FRONTEND
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku ps:scale web=1 -a evening-escarpment-64577
 
       - name: Build and push database image
         run: |
-          docker build -t registry.heroku.com/lit-savannah-04814/web -f database/Dockerfile ./database
+          docker build -t database -f database/Dockerfile ./database
+          docker tag database registry.heroku.com/lit-savannah-04814/web
           docker push registry.heroku.com/lit-savannah-04814/web
 
-######################################################################################################################################
+      - name: Release to Heroku DATABASE
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:release web -a lit-savannah-04814
 
-
-
-
-####################### RELEASE DE APLICACIONES #########################################################################
-
-      - name: Release backend
-        run: |
-          heroku container:release web --app pacific-wave-13397
-
-      - name: Release frontend
-        run: |
-          heroku container:release web --app evening-escarpment-64577
-
-      - name: Release database
-        run: |
-          heroku container:release web --app lit-savannah-04814
-
-####################################################################################################################################
+      - name: Activate Deployment on Heroku DATABASE
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku ps:scale web=1 -a lit-savannah-04814
