@@ -14,6 +14,19 @@ router.get('/employees', async (req, res) => {
     }
 });
 
+// Obtener empleado por id
+router.get('/employees/:id', async (req, res) => {
+
+    const { id } = req.params;
+
+    try {
+        const result = await pool.query('SELECT * FROM employees where id = ?', id);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ error });
+    }
+});
+
 // Obtener empleados por nombre
 router.get('/employee/:name', async (req, res) => {
     const { name } = req.params;
@@ -32,6 +45,11 @@ router.get('/employee/:name', async (req, res) => {
 // Insertar un nuevo empleado
 router.post('/employees', async (req, res) => {
     const { name, salary } = req.body;
+
+
+    if (!name || !salary) {
+        return res.status(400).send("Bad request");
+    }
 
     try {
         const [result] = await pool.query('INSERT INTO employees (name, salary) VALUES (?, ?)', [name, salary]);
