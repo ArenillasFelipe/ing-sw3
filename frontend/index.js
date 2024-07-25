@@ -44,6 +44,9 @@ document.getElementById("form").addEventListener("submit", (event) => {
     let inputName = document.getElementById("inputName").value;
     let inputSalary = document.getElementById("inputSalary").value;
 
+    document.getElementById("inputName").value = "";
+    document.getElementById("inputSalary").value = "";
+
     inputName = inputName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
 
     // Aquí puedes agregar la lógica para enviar los datos al backend

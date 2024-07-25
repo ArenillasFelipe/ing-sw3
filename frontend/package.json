@@ -9,5 +9,9 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "codeceptjs": "^3.6.4",
+    "puppeteer": "^22.13.1"
+  }
 }
