@@ -36,7 +36,9 @@ jobs:
           docker build -t database:latest -f database/Dockerfile ./database
 
           
-      #UNIT tests (npm test en backend)
+        - name: Run unit tests
+        run: |
+          cd backend && npm test
 
       - name: Tag and push Docker images
         run: |
