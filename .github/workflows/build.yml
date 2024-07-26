@@ -18,6 +18,11 @@ jobs:
           cd backend && npm install && npm run lint
         continue-on-error: true # Continúa a pesar de los errores del linter
 
+                  
+      - name: Run unit tests
+        run: cd backend && npm test
+          
+
       - name: Build and run
         run: |
           docker compose up -d
@@ -35,10 +40,7 @@ jobs:
           docker build -t frontend:latest -f frontend/Dockerfile ./frontend
           docker build -t database:latest -f database/Dockerfile ./database
 
-          
-        - name: Run unit tests
-        run: |
-          cd backend && npm test
+
 
       - name: Tag and push Docker images
         run: |
